@@ -28,7 +28,6 @@ class BeerControllerIT extends BaseIT {
 				.andExpect(status().isUnauthorized());
 	}
 	
-	@WithMockUser("spring")
 	@Test
 	void getBeerList() throws Exception {
 		mockMvc.perform(get("/api/v1/beer"))
