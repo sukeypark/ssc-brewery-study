@@ -25,9 +25,14 @@ class BeerControllerIT extends BaseIT {
 	@Test
 	void findBeersWithHttpBasic() throws Exception {
 		mockMvc.perform(get("/beers/find").with(httpBasic("spring", "guru")))
-				.andExpect(status().isOk())
-				.andExpect(view().name("beers/findBeers"))
-				.andExpect(model().attributeExists("beer"));
+				.andExpect(status().isUnauthorized());
+	}
+	
+	@WithMockUser("spring")
+	@Test
+	void getBeerList() throws Exception {
+		mockMvc.perform(get("/api/v1/beer"))
+				.andExpect(status().isOk());
 	}
 
 }

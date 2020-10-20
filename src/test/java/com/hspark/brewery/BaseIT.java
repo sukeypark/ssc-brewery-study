@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.hspark.brewery.services.BeerService;
 import com.hspark.brewery.services.BreweryService;
 
 public abstract class BaseIT {
@@ -18,6 +19,9 @@ public abstract class BaseIT {
 	
 	@MockBean
 	BreweryService breweryService;
+	
+	@MockBean
+	BeerService beerService;
 	
 	protected MockMvc mockMvc;
 	
