@@ -4,3 +4,9 @@
 3. `Authentication Provider`는 `Authentication Manager`에 저장된 인증정보를 `User Details Service`와 `Password Encoder`를 이용하여 검증하고 결과를 Security Filter에 반환한다.
 4. 인증이 유효하면 사용자의 정보는 `Security Context`에 저장된다.
 5. 요청이 Servlet에 전달되어 처리된다.
+
+## inMemoryAuthentication 이용하여 인증정보 등록하기
+### UserDetailsService
+UserDetails 객체를 생성하고 UserDetailsManager에 등록한다.
+### AuthenticationManagerBuilder
+builder 메소드를 이용하여 인증정보를 등록한다.  PasswordEncoder Bean을 등록해야한다.
