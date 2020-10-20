@@ -1,5 +1,6 @@
 package com.hspark.brewery;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -58,7 +59,15 @@ class BeerControllerIT {
 	void findBeers() throws Exception {
 		mockMvc.perform(get("/beers/find"))
 				.andExpect(status().isOk())
-				.andExpect(view().name("beers/findBeeers"))
+				.andExpect(view().name("beers/findBeers"))
+				.andExpect(model().attributeExists("beer"));
+	}
+	
+	@Test
+	void findBeersWithHttpBasic() throws Exception {
+		mockMvc.perform(get("/beers/find").with(httpBasic("spring", "guru")))
+				.andExpect(status().isOk())
+				.andExpect(view().name("beers/findBeers"))
 				.andExpect(model().attributeExists("beer"));
 	}
 
