@@ -22,4 +22,9 @@ public class BeerService {
 		return null;
 	}
 
+	public void deleteById(UUID beerId) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
