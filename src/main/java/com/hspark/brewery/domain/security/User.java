@@ -11,8 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
-import org.springframework.security.core.GrantedAuthority;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,7 +38,7 @@ public class User {
 	@JoinTable(name = "user_authority",
 		joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
 		inverseJoinColumns = {@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID")})
-	private Set<GrantedAuthority> authorities;
+	private Set<Authority> authorities;
 	
 	@Builder.Default
 	private boolean accountNonExpired = true;
