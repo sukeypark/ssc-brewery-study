@@ -51,10 +51,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.csrf().disable();
 		
 		http.addFilterBefore(urlParamAuthFilter(authenticationManager()),
-				RestHeaderAuthFilter.class);
+				UsernamePasswordAuthenticationFilter.class);
 		
 		http
 			.authorizeRequests(authorize -> {
+				authorize.antMatchers("/h2-console", "/h2-console/**").permitAll(); // do not use in production
 				authorize.antMatchers("/", "/webjars/**", "/login", "/resources/**").permitAll();
 				authorize.mvcMatchers(HttpMethod.GET, "/api/v1/beerUpc/{upc}").permitAll();
 			})
@@ -63,6 +64,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 			.formLogin().and()
 			.httpBasic();
+		
+		// h2 console config
+		http.headers().frameOptions().sameOrigin();
 	}
 	
 	@Override
