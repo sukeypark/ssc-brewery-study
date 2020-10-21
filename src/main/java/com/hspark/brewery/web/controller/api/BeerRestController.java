@@ -47,7 +47,7 @@ public class BeerRestController {
 		return new ResponseEntity<>(beerService.findBeerByUpc(upc), HttpStatus.OK);		
 	}
 	
-	@DeleteMapping("beer/{beerId}")
+	@DeleteMapping("/beer/{beerId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteBeer(@PathVariable("beerId") UUID beerId) {
 		beerService.deleteById(beerId);
