@@ -34,7 +34,7 @@ public class UserDataLoader implements CommandLineRunner {
 			userRepository.save(
 				User.builder()
 					.username("admin")
-					.password("password")
+					.password("{bcrypt}$2a$10$qxcEYn4r1X4P8fE9ccR77.JWPIT0HOgiyudFF5uIEIFW7thCOZWCS")
 					.authority(admin)
 					.build()					
 			);
@@ -42,7 +42,7 @@ public class UserDataLoader implements CommandLineRunner {
 			userRepository.save(
 				User.builder()
 					.username("customer")
-					.password("password")
+					.password("{bcrypt15}$2a$15$znAAB15Sz6UdWKnfldYsvewvAmxvct/QWamLqW7sHK8HcG60D5Eu6")
 					.authority(customer)
 					.build()
 			);
@@ -50,7 +50,7 @@ public class UserDataLoader implements CommandLineRunner {
 			userRepository.save(
 				User.builder()
 					.username("user")
-					.password("password")
+					.password("{ldap}{SSHA}TSFVbaInuKIE/IZxKNsSqPeEvd3rb+jAYYqPVg==")
 					.authority(user)
 					.build()	
 					
