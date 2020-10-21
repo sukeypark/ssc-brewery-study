@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.hspark.brewery.security.CustomPasswordEncoderFactories;
-import com.hspark.brewery.security.RestHeaderAuthFilter;
+import com.hspark.brewery.security.filter.RestHeaderAuthFilter;
 
 @EnableWebSecurity
 @Configuration
