@@ -2,9 +2,12 @@ package com.hspark.brewery.services;
 
 import java.util.UUID;
 
+import org.springframework.stereotype.Service;
+
 import com.hspark.brewery.web.model.BeerDto;
 import com.hspark.brewery.web.model.BeerPagedList;
 
+@Service
 public class BeerService {
 
 	public BeerPagedList listBeers() {
