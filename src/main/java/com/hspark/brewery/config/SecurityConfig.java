@@ -15,6 +15,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.hspark.brewery.security.CustomPasswordEncoderFactories;
 import com.hspark.brewery.security.filter.RestHeaderAuthFilter;
+import com.hspark.brewery.security.filter.UrlParamAuthFilter;
 
 @EnableWebSecurity
 @Configuration
@@ -24,6 +25,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //	PasswordEncoder passwordEncoder() {
 //		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 //	}
+	
+	public UrlParamAuthFilter urlParamAuthFilter(AuthenticationManager authenticationManager) {
+		UrlParamAuthFilter filter = new UrlParamAuthFilter(new AntPathRequestMatcher("/api/**"));
+		filter.setAuthenticationManager(authenticationManager);
+		return filter;
+	}
 	
 	public RestHeaderAuthFilter restHeaderAuthFilter(AuthenticationManager authenticationManager) {
 		RestHeaderAuthFilter filter = new RestHeaderAuthFilter(new AntPathRequestMatcher("/api/**"));
@@ -42,6 +49,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.addFilterBefore(restHeaderAuthFilter(authenticationManager()), 
 					UsernamePasswordAuthenticationFilter.class)
 			.csrf().disable();
+		
+		http.addFilterBefore(urlParamAuthFilter(authenticationManager()),
+				RestHeaderAuthFilter.class);
 		
 		http
 			.authorizeRequests(authorize -> {
