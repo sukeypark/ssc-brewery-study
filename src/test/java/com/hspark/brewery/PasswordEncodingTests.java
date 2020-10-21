@@ -13,6 +13,12 @@ import org.springframework.util.DigestUtils;
 class PasswordEncodingTests {
 	
 	static final String PASSWORD = "password";
+	
+	@Test
+	void testBcrypt15Password() {
+		PasswordEncoder bcrypt15 = new BCryptPasswordEncoder(15);
+		System.out.println(bcrypt15.encode(PASSWORD));
+	}
 
 	@Test
 	void testMd5Password() {

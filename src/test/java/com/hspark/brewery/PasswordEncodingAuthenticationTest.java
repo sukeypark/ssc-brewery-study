@@ -13,10 +13,16 @@ class PasswordEncodingAuthenticationTest extends BaseIT {
 	static final String PASSWORD = "password";
 	
 	@Test
-	void testAdminMd5() throws Exception {
-		mockMvc.perform(get("/beers/find").with(httpBasic("admin_md5", PASSWORD)))
-				.andExpect(status().isOk());
+	void testBcrypt15Password() throws Exception {
+		mockMvc.perform(get("/beers/find").with(httpBasic("user_bcrypt15", PASSWORD)))
+			.andExpect(status().isOk());
 	}
+	
+//	@Test
+//	void testAdminMd5() throws Exception {
+//		mockMvc.perform(get("/beers/find").with(httpBasic("admin_md5", PASSWORD)))
+//				.andExpect(status().isOk());
+//	}
 	
 	@Test
 	void testUserLdap() throws Exception {

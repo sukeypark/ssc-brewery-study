@@ -6,15 +6,22 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+//import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.hspark.brewery.security.CustomPasswordEncoderFactories;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
+//	@Bean
+//	PasswordEncoder passwordEncoder() {
+//		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+//	}
+	
 	@Bean
 	PasswordEncoder passwordEncoder() {
-		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		return CustomPasswordEncoderFactories.createDelegatingPasswordEncoder();
 	}
 	
 	@Override
@@ -49,7 +56,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 				.withUser("user_bcrypt")
 				.password("{bcrypt}$2a$10$9htW1cH6gbtgz/pK5hvNwOYAbfDv4Rbs8wrvfHCTbBT.OZpB/cKy6")
-				.roles("USER");
+				.roles("USER")
+				.and()
+				.withUser("user_bcrypt15")
+				.password("{bcrypt15}$2a$15$WDPinCqETpFV6mdDYsEnYu9mVUaDdVEhcqm6nQ3DgZ369lguCWxxi")
+				.roles("USER")
+				;
 
 	
 //	@Override
