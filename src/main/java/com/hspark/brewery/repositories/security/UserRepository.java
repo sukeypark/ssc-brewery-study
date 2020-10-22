@@ -1,4 +1,4 @@
-package com.hspark.brewery.repository.security;
+package com.hspark.brewery.repositories.security;
 
 import java.util.Optional;
 

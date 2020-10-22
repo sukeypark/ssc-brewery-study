@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 
 import com.hspark.brewery.domain.security.Authority;
 import com.hspark.brewery.domain.security.User;
-import com.hspark.brewery.repository.security.AuthorityRepository;
-import com.hspark.brewery.repository.security.UserRepository;
+import com.hspark.brewery.repositories.security.AuthorityRepository;
+import com.hspark.brewery.repositories.security.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

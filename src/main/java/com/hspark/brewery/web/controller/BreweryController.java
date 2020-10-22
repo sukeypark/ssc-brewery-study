@@ -14,7 +14,7 @@ import com.hspark.brewery.services.BreweryService;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@RequestMapping("/brewery")
+@RequestMapping("brewery")
 @Controller
 public class BreweryController {
 	

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout (~{::body}, 'beers')}">
+
+<body>
+  <h2>
+    <th:block th:if="${beer['new']}">New Beer</th:block>
+    <th:block th:unless="${beer['new']}">Update Beer</th:block>
+    
+    <form th:object="${beer}" class="form-horizontal" id="add-beer-form" method="post">
+      <div class="form-group has-feedback">
+        <input 
+                th:replace="~{fragments/inputField :: input ('Beer Name', 'beerName', 'text')}" />
+        <input
+                th:replace="~{fragments/selectField :: select ('Style', 'beerStyle', ${T(com.hspark.brewery.web.model.BeerStyleEnum).values()})}" />
+        <input 
+                th:replace="~{fragments/inputField :: input ('UPC', 'upc', 'number')}" />
+        <input 
+                th:replace="~{fragments/inputField :: input ('Min Qty on Hand', 'minOnHand', 'number')}" />
+        <input 
+                th:replace="~{fragments/inputField :: input ('Qty to Brew', 'quantityToBrew', 'number')}" />
+        <input 
+                th:replace="~{fragments/inputField :: input ('Price', 'price', 'monetory')}" />
+      </div>
+    </form>
+    
+    <div class="form-group has-feedback">
+    
+    </div>
+  </h2>
+</body>
+</html>
