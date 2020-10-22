@@ -80,7 +80,7 @@ class BeerControllerIT extends BaseIT {
 		void findBeerFormAUTH(String user, String pwd) throws Exception {
 			mockMvc.perform(get("/beers").param("beerName", "")
 					.with(httpBasic(user, pwd)))
-				.andExpect(status().isOk());
+					.andExpect(status().isOk());
 		}
 	}
 	
