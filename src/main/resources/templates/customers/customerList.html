@@ -1,0 +1,25 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::body}, 'customers')}">
+<body>
+	
+  <h2>Owners</h2>
+  
+  <table id="vets" class="table table-striped">
+    <thead>
+    <tr>
+      <th style="width: 150px;">Customer Name</th>
+      <th style="width: 150px;">registration Date</th>
+    </tr>
+    </thead>
+  </table>
+  <tbody>
+  <tr>
+    <td>
+      <a th:href="@{/customers/__${customer.id}__}" 
+         th:text="${customer.customerName}"></a>
+    </td>
+    <td th:text="${customer.createdDate}"></td>
+  </tr>
+  </tbody>
+</body>
+</html>
