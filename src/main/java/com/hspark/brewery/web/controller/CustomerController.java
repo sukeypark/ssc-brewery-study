@@ -3,6 +3,7 @@ package com.hspark.brewery.web.controller;
 import java.util.List;
 
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,7 +22,7 @@ public class CustomerController {
 	
 	private final CustomerRepository customerRepository;
 	
-	@Secured({"ROLE_ADMIN", "ROLE_CUSTOMER"})
+	@PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
 	@GetMapping
 	public String processFindFormReturnMany(Customer customer, BindingResult result, Model model) {
         // find customers by name
