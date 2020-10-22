@@ -7,13 +7,9 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.provider.Arguments;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import com.hspark.brewery.services.BeerService;
-import com.hspark.brewery.services.BreweryService;
 
 public abstract class BaseIT {
 	
@@ -42,7 +38,14 @@ public abstract class BaseIT {
 		return Stream.of(
 				Arguments.of("customer", "password"),
 				Arguments.of("user", "password")
-				);
+		);
+	}
+	
+	public static Stream<Arguments> getStreamAdminCustomer() {
+		return Stream.of(
+				Arguments.of("admin", "password"),
+				Arguments.of("customer", "password")
+		);		
 	}
 
 }
