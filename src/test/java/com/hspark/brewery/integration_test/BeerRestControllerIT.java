@@ -1,4 +1,4 @@
-package com.hspark.brewery;
+package com.hspark.brewery.integration_test;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -9,6 +9,8 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import com.hspark.brewery.BaseIT;
 
 @SpringBootTest
 class BeerRestControllerIT extends BaseIT {
