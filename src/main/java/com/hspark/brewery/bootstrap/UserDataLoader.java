@@ -59,7 +59,7 @@ public class UserDataLoader implements CommandLineRunner {
 				createCustomer, updateCustomer, readCustomer, deleteCustomer,
 				createBrewery, updateBrewery, readBrewery, deleteBrewery)));
 		customerRole.setAuthorities(new HashSet<>(Set.of(readBeer, readCustomer, readBrewery)));
-		userRole.setAuthorities(new HashSet<>());
+		userRole.setAuthorities(new HashSet<>(Set.of(readBeer)));
 
 		roleRepository.saveAll(Arrays.asList(adminRole, customerRole, userRole));
 		
