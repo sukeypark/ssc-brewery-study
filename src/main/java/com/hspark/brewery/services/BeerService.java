@@ -2,44 +2,23 @@ package com.hspark.brewery.services;
 
 import java.util.UUID;
 
-import javax.validation.Valid;
-
-import org.springframework.stereotype.Service;
+import org.springframework.data.domain.PageRequest;
 
 import com.hspark.brewery.web.model.BeerDto;
 import com.hspark.brewery.web.model.BeerPagedList;
+import com.hspark.brewery.web.model.BeerStyleEnum;
 
-@Service
-public class BeerService {
+public interface BeerService {
 
-	public BeerPagedList listBeers() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	BeerPagedList listBeers(String beerName, BeerStyleEnum beerStyle, PageRequest pageRequest, Boolean showInventoryOnHand);
 
-	public BeerDto findBeerById(UUID beerId, Boolean showInventoryOnHand) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	BeerDto findBeerById(UUID beerId, Boolean showInventoryOnHand);
 
-	public BeerDto findBeerByUpc(String upc) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	BeerDto saveBeer(BeerDto beerDto);
 
-	public void deleteById(UUID beerId) {
-		// TODO Auto-generated method stub
-		
-	}
+	void updateBeer(UUID beerId, BeerDto beerDto);
 
-	public BeerDto saveBeer(@Valid BeerDto beerDto) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	void deleteById(UUID beerId);
 
-	public void updateBeer(UUID beerId, @Valid BeerDto beerDto) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	BeerDto findBeerByUpc(String upc);
 }

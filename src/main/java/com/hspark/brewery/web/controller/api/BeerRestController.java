@@ -7,6 +7,7 @@ import java.util.UUID;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,23 +27,50 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hspark.brewery.services.BeerService;
 import com.hspark.brewery.web.model.BeerDto;
 import com.hspark.brewery.web.model.BeerPagedList;
+import com.hspark.brewery.web.model.BeerStyleEnum;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/")
 @RestController
 public class BeerRestController {
 	
 	private final BeerService beerService;
 	
+	private static final Integer DEFAULT_PAGE_NUMBER = 0;
+	private static final Integer DEFAULT_PAGE_SIZE = 25;
+	
 	@PreAuthorize("hasAuthority('beer.read')")
 	@GetMapping(produces = {"application/json"}, path = "beer")
-	public ResponseEntity<BeerPagedList> listBeers() {
-		BeerPagedList beerList = beerService.listBeers();
+	public ResponseEntity<BeerPagedList> listBeers(@RequestParam(value = "pageNumber", required =false) Integer pageNumber,
+			                                       @RequestParam(value = "pageSize", required =false) Integer pageSize,
+			                                       @RequestParam(value = "beerName", required =false) String beerName,
+			                                       @RequestParam(value = "pageStyle", required =false) BeerStyleEnum beerStyle,
+			                                       @RequestParam(value = "showInventoryOnHand", required =false) Boolean showInventoryOnHand) {
+		
+		log.debug("Listing Beers");
+		
+		if (showInventoryOnHand == null) {
+			showInventoryOnHand = false;
+		}
+		
+		if (pageNumber == null | pageNumber < 0) {
+			pageNumber = DEFAULT_PAGE_NUMBER;
+		}
+		
+		if (pageSize == null | pageSize < 1) {
+			pageSize = DEFAULT_PAGE_SIZE;
+		}
+
+		BeerPagedList beerList = beerService.listBeers(beerName, beerStyle, PageRequest.of(pageNumber, pageSize), showInventoryOnHand);
+		
 		return new ResponseEntity<>(beerList, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAuthority('beer.read')")
 	@GetMapping(path = {"beer/{beerId}"}, produces = {"application/json"})
 	public ResponseEntity<BeerDto> getBeerById(@PathVariable("beerId") UUID beerId,
 			@RequestParam(value = "showInventoryOnHand", required = false) Boolean showInventoryOnHand) {

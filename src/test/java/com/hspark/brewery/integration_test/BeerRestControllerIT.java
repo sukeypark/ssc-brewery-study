@@ -44,7 +44,7 @@ class BeerRestControllerIT extends BaseIT {
 		
 		@Test
 		void deleteBeerHttpBasic() throws Exception {
-			mockMvc.perform(delete("/api/v1/beer" + beerToDelete().getId())
+			mockMvc.perform(delete("/api/v1/beer/" + beerToDelete().getId())
 					.with(httpBasic("admin", "password")))
 					.andExpect(status().is2xxSuccessful());
 		}
@@ -53,7 +53,7 @@ class BeerRestControllerIT extends BaseIT {
 		@MethodSource("com.hspark.brewery.integration_test.BeerRestControllerIT#getStreamNotAdmin")
 		void deleteBeerHttpBasicNotAuth(String user, String pwd) throws Exception {
 			mockMvc.perform(delete("/api/v1/beer/" + beerToDelete().getId())
-					.with(httpBasic("admin", "password")))
+					.with(httpBasic(user, pwd)))
 			.andExpect(status().isForbidden());
 		}
 		
@@ -92,7 +92,7 @@ class BeerRestControllerIT extends BaseIT {
 		void findBeerByIdNoAuth() throws Exception {
 			Beer beer = beerRepository.findAll().get(0);
 			
-			mockMvc.perform(get("/api/v1/beer" + beer.getId()))
+			mockMvc.perform(get("/api/v1/beer/" + beer.getId()))
 					.andExpect(status().isUnauthorized());
 		}
 		
@@ -101,7 +101,7 @@ class BeerRestControllerIT extends BaseIT {
 		void findBeerByIdAUTH(String user, String pwd) throws Exception {
 			Beer beer = beerRepository.findAll().get(0);
 			
-			mockMvc.perform(get("/api/v1/beer" + beer.getId())
+			mockMvc.perform(get("/api/v1/beer/" + beer.getId())
 					.with(httpBasic(user, pwd)))
 					.andExpect(status().isOk());
 		}
