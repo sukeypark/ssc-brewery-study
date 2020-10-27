@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 import com.hspark.brewery.domain.BeerOrderLine;
 import com.hspark.brewery.web.model.BeerOrderLineDto;
 
-@Mapper(uses = {DateMapper.class})
+@Mapper(componentModel = "spring", uses = {DateMapper.class})
 @DecoratedWith(BeerOrderLineMapperDecorator.class)
 public interface BeerOrderLineMapper {
 	BeerOrderLineDto beerOrderLineToDto(BeerOrderLine line);

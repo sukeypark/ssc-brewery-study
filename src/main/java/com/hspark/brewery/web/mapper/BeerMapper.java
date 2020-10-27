@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 import com.hspark.brewery.domain.Beer;
 import com.hspark.brewery.web.model.BeerDto;
 
-@Mapper(uses = {DateMapper.class})
+@Mapper(componentModel = "spring", uses = {DateMapper.class})
 @DecoratedWith(BeerMapperDecorator.class)
 public interface BeerMapper {
 
