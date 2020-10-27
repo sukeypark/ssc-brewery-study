@@ -1,5 +1,6 @@
 package com.hspark.brewery.domain.security;
 
+import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -12,7 +13,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+
+import org.springframework.security.core.CredentialsContainer;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.hspark.brewery.domain.Customer;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,8 +36,10 @@ import lombok.Singular;
 @NoArgsConstructor
 @Builder
 @Entity
-public class User {
-	
+public class User implements UserDetails, CredentialsContainer {
+
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
@@ -45,14 +56,17 @@ public class User {
 		inverseJoinColumns = {@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")})
 	private Set<Role> roles;
 	
-	// tells Hibernate or JPA that this property is calculated and it is not persistent
-	@Transient
-	private Set<Authority> authorities;
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Customer customer;
 	
-	public Set<Authority> getAuthorities() {
+	@Transient
+	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return this.roles.stream()
 				.map(Role::getAuthorities)
 				.flatMap(Set::stream)
+				.map(authority -> {
+					return new SimpleGrantedAuthority(authority.getPermission()); 
+				})
 				.collect(Collectors.toSet());
 	}
 	
@@ -67,4 +81,9 @@ public class User {
 	
 	@Builder.Default
 	private boolean enabled = true;
+
+	@Override
+	public void eraseCredentials() {
+		this.password = null;
+	}
 }
