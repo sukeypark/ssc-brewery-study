@@ -146,7 +146,11 @@
                             <version>${org.projectlombok.version}</version>
                         </path>
 	                </annotationProcessorPaths>
-	                <generatedSourcesDirectory>${project.build.directory}/generated-sources</generatedSourcesDirectory>
+                    <compilerArgs>
+                        <compilerArg>
+                            -Amapstruct.defaultComponentModel=spring
+                        </compilerArg>
+                    </compilerArgs>
 	            </configuration>
 	        </plugin>
 		</plugins>
