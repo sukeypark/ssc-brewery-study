@@ -45,11 +45,11 @@ public class BeerRestController {
 	
 	@PreAuthorize("hasAuthority('beer.read')")
 	@GetMapping(produces = {"application/json"}, path = "beer")
-	public ResponseEntity<BeerPagedList> listBeers(@RequestParam(value = "pageNumber", required =false) Integer pageNumber,
-			                                       @RequestParam(value = "pageSize", required =false) Integer pageSize,
-			                                       @RequestParam(value = "beerName", required =false) String beerName,
-			                                       @RequestParam(value = "pageStyle", required =false) BeerStyleEnum beerStyle,
-			                                       @RequestParam(value = "showInventoryOnHand", required =false) Boolean showInventoryOnHand) {
+	public ResponseEntity<BeerPagedList> listBeers(@RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+			                                       @RequestParam(value = "pageSize", required = false) Integer pageSize,
+			                                       @RequestParam(value = "beerName", required = false) String beerName,
+			                                       @RequestParam(value = "pageStyle", required = false) BeerStyleEnum beerStyle,
+			                                       @RequestParam(value = "showInventoryOnHand", required = false) Boolean showInventoryOnHand) {
 		
 		log.debug("Listing Beers");
 		
@@ -57,11 +57,11 @@ public class BeerRestController {
 			showInventoryOnHand = false;
 		}
 		
-		if (pageNumber == null | pageNumber < 0) {
+		if (pageNumber == null || pageNumber < 0) {
 			pageNumber = DEFAULT_PAGE_NUMBER;
 		}
 		
-		if (pageSize == null | pageSize < 1) {
+		if (pageSize == null || pageSize < 1) {
 			pageSize = DEFAULT_PAGE_SIZE;
 		}
 
