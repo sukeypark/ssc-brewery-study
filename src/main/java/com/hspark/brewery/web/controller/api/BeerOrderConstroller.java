@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hspark.brewery.security.perms.OrderCreatePermission;
+import com.hspark.brewery.security.perms.OrderReadPermission;
+import com.hspark.brewery.security.perms.OrderUpdatePermission;
 import com.hspark.brewery.services.BeerOrderService;
 import com.hspark.brewery.web.model.BeerOrderDto;
 import com.hspark.brewery.web.model.BeerOrderPagedList;
@@ -31,6 +34,7 @@ public class BeerOrderConstroller {
 		this.beerOrderService = beerOrderService;
 	}
 	
+	@OrderReadPermission
 	@GetMapping("orders")
 	public BeerOrderPagedList listOrders(@PathVariable("customerId") UUID customerId, 
 										 @RequestParam(value="pageNumber", required = false) Integer pageNumber, 
@@ -47,6 +51,7 @@ public class BeerOrderConstroller {
 		return beerOrderService.listOrders(customerId, PageRequest.of(pageNumber, pageSize));	
 	}
 	
+	@OrderCreatePermission
 	@PostMapping("orders")
 	@ResponseStatus(HttpStatus.CREATED)
 	public BeerOrderDto placeOrder(@PathVariable("customerId") UUID customerId,
@@ -60,6 +65,7 @@ public class BeerOrderConstroller {
 		return beerOrderService.getOrderById(customerId, orderId);	
 	}
 	
+	@OrderUpdatePermission
 	@PutMapping("orders/{orderId}/pickup")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void pickupOrder(@PathVariable("customerId") UUID customerId,

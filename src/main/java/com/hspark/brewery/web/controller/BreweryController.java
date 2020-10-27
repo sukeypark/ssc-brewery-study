@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hspark.brewery.domain.Brewery;
+import com.hspark.brewery.security.perms.BreweryReadPermission;
 import com.hspark.brewery.services.BreweryService;
 
 import lombok.RequiredArgsConstructor;
@@ -20,12 +21,14 @@ public class BreweryController {
 	
 	private final BreweryService breweryService;
 	
+	@BreweryReadPermission
 	@GetMapping({"/breweries", "/breweries/index", "/breweries/index.html", "/breweries.html"})
 	public String listBreweries(Model model) {
 		model.addAttribute("breweries", breweryService.getAllBreweries());
 		return "breweries/index";
 	}
 	
+	@BreweryReadPermission
     @GetMapping("/api/v1/breweries")
     public @ResponseBody
     List<Brewery> getBreweriesJson(){
