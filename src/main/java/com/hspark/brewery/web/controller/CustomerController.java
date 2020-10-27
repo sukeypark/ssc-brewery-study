@@ -84,6 +84,7 @@ public class CustomerController {
 	}
 	
 	@PreAuthorize("hasAuthority('customer.update')")
+	@GetMapping("/{customerId}/edit")
 	public String initUpdateCustomerForm(@PathVariable UUID customerId, Model model) {
 		if(customerRepository.findById(customerId).isPresent()) {
 			model.addAttribute("customer", customerRepository.findById(customerId).get());
