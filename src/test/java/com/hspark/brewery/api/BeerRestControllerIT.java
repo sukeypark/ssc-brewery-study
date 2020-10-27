@@ -1,4 +1,4 @@
-package com.hspark.brewery.integration_test;
+package com.hspark.brewery.api;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;

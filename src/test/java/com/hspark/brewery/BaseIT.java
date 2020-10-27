@@ -12,7 +12,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 public abstract class BaseIT {
-	
 	@Autowired
 	WebApplicationContext wac;
 	
@@ -27,25 +26,13 @@ public abstract class BaseIT {
 	}
 	
 	public static Stream<Arguments> getStreamAllUsers() {
-		return Stream.of(
-				Arguments.of("admin", "password"),
+		return Stream.of(Arguments.of("admin", "password"),
 				Arguments.of("customer", "password"),
-				Arguments.of("user", "password")
-		);
+				Arguments.of("user", "password"));
 	}
 	
 	public static Stream<Arguments> getStreamNotAdmin() {
-		return Stream.of(
-				Arguments.of("customer", "password"),
-				Arguments.of("user", "password")
-		);
+		return Stream.of(Arguments.of("customer", "password"),
+				Arguments.of("user", "password"));
 	}
-	
-	public static Stream<Arguments> getStreamAdminCustomer() {
-		return Stream.of(
-				Arguments.of("admin", "password"),
-				Arguments.of("customer", "password")
-		);		
-	}
-
 }

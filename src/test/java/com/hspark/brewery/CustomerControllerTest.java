@@ -1,4 +1,4 @@
-package com.hspark.brewery.unit_test;
+package com.hspark.brewery;
 
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;

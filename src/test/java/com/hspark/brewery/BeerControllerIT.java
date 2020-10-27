@@ -1,4 +1,4 @@
-package com.hspark.brewery.integration_test;
+package com.hspark.brewery;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.anonymous;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
@@ -15,7 +15,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.hspark.brewery.BaseIT;
 import com.hspark.brewery.domain.Beer;
 import com.hspark.brewery.repositories.BeerRepository;
 
