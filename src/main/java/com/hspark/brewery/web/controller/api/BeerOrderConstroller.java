@@ -15,11 +15,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hspark.brewery.security.perms.OrderCreatePermission;
+import com.hspark.brewery.security.perms.OrderPickUpPermission;
 import com.hspark.brewery.security.perms.OrderReadPermission;
 import com.hspark.brewery.security.perms.OrderUpdatePermission;
 import com.hspark.brewery.services.BeerOrderService;
 import com.hspark.brewery.web.model.BeerOrderDto;
 import com.hspark.brewery.web.model.BeerOrderPagedList;
+
+import lombok.AllArgsConstructor;
 
 @RequestMapping("/api/v1/customers/{customerId}")
 @RestController
@@ -59,13 +62,14 @@ public class BeerOrderConstroller {
 		return beerOrderService.placeOrder(customerId, beerOrderDto);
 	}
 	
+	@OrderReadPermission
 	@GetMapping("orders/{orderId}")
 	public BeerOrderDto getOrder(@PathVariable("customerId") UUID customerId,
 			                     @PathVariable("orderId") UUID orderId) {
 		return beerOrderService.getOrderById(customerId, orderId);	
 	}
 	
-	@OrderUpdatePermission
+	@OrderPickUpPermission
 	@PutMapping("orders/{orderId}/pickup")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void pickupOrder(@PathVariable("customerId") UUID customerId,

@@ -222,6 +222,9 @@ public class DefaultBreweryLoader implements CommandLineRunner {
 		Authority readOrderCustomer = authorityRepository.save(Authority.builder().permission("customer.order.read").build());
 		Authority deleteOrderCustomer = authorityRepository.save(Authority.builder().permission("customer.order.delete").build());
 		
+		// pick up order
+		Authority pickUpOrder = authorityRepository.save(Authority.builder().permission("order.pickup").build());
+		Authority pickUpOrderCustomer = authorityRepository.save(Authority.builder().permission("customer.order.pickup").build());
 		
 		Role adminRole = roleRepository.save(Role.builder().name("ADMIN").build());
 		Role customerRole = roleRepository.save(Role.builder().name("CUSTOMER").build());
@@ -231,11 +234,11 @@ public class DefaultBreweryLoader implements CommandLineRunner {
 				createBeer, updateBeer, readBeer, deleteBeer,
 				createCustomer, updateCustomer, readCustomer, deleteCustomer,
 				createBrewery, updateBrewery, readBrewery, deleteBrewery,
-				createOrder, updateOrder, readOrder, deleteOrder)));
+				createOrder, updateOrder, readOrder, deleteOrder, pickUpOrder)));
 		
 		customerRole.setAuthorities(new HashSet<>(Set.of(
 				readBeer, readCustomer, readBrewery,
-				createOrderCustomer, updateOrderCustomer, readOrderCustomer, deleteOrderCustomer)));
+				createOrderCustomer, updateOrderCustomer, readOrderCustomer, deleteOrderCustomer, pickUpOrderCustomer)));
 		 
 		userRole.setAuthorities(new HashSet<>(Set.of(readBeer)));
 
