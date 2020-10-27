@@ -50,7 +50,7 @@ public class User implements UserDetails, CredentialsContainer {
 	// fetch EAGER: avoid N+1 SQL problem in ManyToMany Relationship
 	// get 1 SQL query rather than multiple query
 	@Singular(value = "role")
-	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role",
 		joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
 		inverseJoinColumns = {@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")})
