@@ -1,4 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.com/extras/spring-security"
       th:replace="~{fragments/layout :: layout (~{::body}, 'beers')}">
 <body>
   <h2>Find Beers</h2>
@@ -24,6 +25,6 @@
   </form>
 
   <br />
-  <a class="btn btn-default" th:href="@{/beers/new}">Add Beer</a>
+  <a sec:authorize="hasAuthority('beer.create')" class="btn btn-default" th:href="@{/beers/new}">Add Beer</a>
 </body>      
 </html>

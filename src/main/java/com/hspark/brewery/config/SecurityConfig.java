@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 //import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.hspark.brewery.security.CustomPasswordEncoderFactories;
 
@@ -38,9 +39,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.anyRequest().authenticated()
 				.and()
-			.formLogin().and()
+			.formLogin(loginConfigurer -> {
+				loginConfigurer
+					.loginProcessingUrl("/login")
+					.loginPage("/").permitAll()
+					.successForwardUrl("/")
+					.defaultSuccessUrl("/")
+					.failureUrl("/?error");
+			})
+			.logout(logoutConfigurer -> {
+				logoutConfigurer
+					.logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+					.logoutSuccessUrl("/?logout")
+					.permitAll();
+			})
 			.httpBasic()
-			.and().csrf().disable();
+			.and().csrf().ignoringAntMatchers("/h2-console/**", "/api/**");
 		
 		// h2 console config
 		http.headers().frameOptions().sameOrigin();

@@ -1,112 +1,80 @@
 package com.hspark.brewery;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.anonymous;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import com.hspark.brewery.repositories.CustomerRepository;
+import org.springframework.test.annotation.Rollback;
 
 @SpringBootTest
 class CustomerControllerIT extends BaseIT {
 	
-	@Autowired
-	CustomerRepository customerRepository;
-	
-	@DisplayName("Init new Form")
+	@DisplayName("List Customers")
 	@Nested
-	class InitNewForm {
+	class ListCustomers {
 		@ParameterizedTest(name = "#{index} with [{arguments}]")
-		@MethodSource("com.hspark.brewery.integration_test.CustomerControllerIT#getStreamNotAdmin")
-		void initCreationFormNotAuth(String user, String pwd) throws Exception {
-			mockMvc.perform(get("/customers/new").with(httpBasic(user, pwd)))
+		@MethodSource("com.hspark.brewery.CustomerControllerIT#getStreamAdminCustomer")
+		void testListCustomersAUTH(String user, String pwd) throws Exception {
+			mockMvc.perform(get("/customers")
+					.with(httpBasic(user, pwd)))
+					.andExpect(status().isOk());
+		}
+		
+		@Test
+		void testListCustomersNOTAUTH() throws Exception {
+			mockMvc.perform(get("/customers")
+					.with(httpBasic("user", "password")))
 					.andExpect(status().isForbidden());
 		}
 		
 		@Test
-		void initCreationFormAdmin() throws Exception {
-			mockMvc.perform(get("/customers/new").with(httpBasic("admin", "password")))
-			.andExpect(status().isOk())
-			.andExpect(view().name("customers/createCustomer"))
-			.andExpect(model().attributeExists("customer"));			
-		}
-		
-		@Test
-		void initCreationFormWithAnonymous() throws Exception {
-			mockMvc.perform(get("/customers/new").with(anonymous()))
+		void testListCustomersNOTLOGGEDIN() throws Exception {
+			mockMvc.perform(get("/customers"))
 					.andExpect(status().isUnauthorized());
 		}
 	}
 	
-	@DisplayName("Init Find Customer Form")
+	@DisplayName("Add Customers")
 	@Nested
-	class FindForm {
+	class AddCustomers {
+		
+		@Rollback
+		@Test
+		void processCreationForm() throws Exception {
+			mockMvc.perform(post("/customers/new")
+					.param("customerName", "Foo Customer")
+					.with(httpBasic("admin", "password"))
+					.with(csrf()))
+					.andExpect(status().is3xxRedirection());
+			
+		}
+		
+		@Rollback
 		@ParameterizedTest(name = "#{index} with [{arguments}]")
-		@MethodSource("com.hspark.brewery.integration_test.CustomerControllerIT#getStreamAdminCustomer")
-		void findCustomerFormNotAuth(String user, String pwd) throws Exception {
-			mockMvc.perform(get("/customers/find").with(httpBasic(user, pwd)))
-					.andExpect(status().isOk())
-					.andExpect(view().name("customers/findCustomers"))
-					.andExpect(model().attributeExists("customer"));			
-		}
-		
-		@Test
-		void findCustomerNotAuth() throws Exception {
-			mockMvc.perform(get("/customers/find").with(httpBasic("user", "password")))
+		@MethodSource("com.hspark.brewery.CustomerControllerIT#getStreamNotAdmin")
+		void processCreationFormNOTAUTH(String user, String pwd) throws Exception {
+			mockMvc.perform(post("/customers/new")
+					.param("customerName", "Foo Customer")
+					.with(httpBasic(user, pwd))
+					.with(csrf()))
 					.andExpect(status().isForbidden());
+			
 		}
 		
 		@Test
-		void findCustomerFormWithAnonymous() throws Exception {
-			mockMvc.perform(get("/customers/find").with(anonymous()))
+		void processCreationFormNOAUTH() throws Exception {
+			mockMvc.perform(post("/customers/new").param("customerName", "Foo Customer")
+					.with(csrf()))
 					.andExpect(status().isUnauthorized());
+			
 		}
 	}
-	
-	@DisplayName("Get Customer By Id")
-	@Nested
-	class GetById {
-		@ParameterizedTest(name = "#{index} with [{arguments}]")
-		@MethodSource("com.hspark.brewery.integration_test.CustomerControllerIT#getStreamAdminCustomer")
-		void findCustomerFormNotAuth(String user, String pwd) throws Exception {
-			mockMvc.perform(get("/customers/find").with(httpBasic(user, pwd)))
-					.andExpect(status().isOk())
-					.andExpect(view().name("customers/findCustomers"))
-					.andExpect(model().attributeExists("customer"));			
-		}
-		
-		@Test
-		void findCustomerNotAuth() throws Exception {
-			mockMvc.perform(get("/customers/find").with(httpBasic("user", "password")))
-					.andExpect(status().isForbidden());
-		}
-		
-		@Test
-		void findCustomerFormWithAnonymous() throws Exception {
-			mockMvc.perform(get("/customers/find").with(anonymous()))
-					.andExpect(status().isUnauthorized());
-		}
-	}
-	
-	@DisplayName("Process Creation Form")
-	@Nested
-	class ProcessCreationForm {
-		
-	}
-	
-	@DisplayName("Init Update Customer Form")
-	class ProcessUpcateForm {
-		
-	}
-
 }
