@@ -16,6 +16,7 @@
         <input type="password" id="password" name="password" autofocus="true" autocomplete="off" />
         <input type="submit" value="Log In" />
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <input type="checkbox" name="remember-me" id="remember-me" /> Remember Me
       </form>
     </div>
   </div>
