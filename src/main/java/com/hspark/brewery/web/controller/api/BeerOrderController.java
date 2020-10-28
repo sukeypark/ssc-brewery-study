@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hspark.brewery.security.perms.OrderCreatePermission;
-import com.hspark.brewery.security.perms.OrderPickUpPermission;
-import com.hspark.brewery.security.perms.OrderReadPermission;
-import com.hspark.brewery.security.perms.OrderUpdatePermission;
+import com.hspark.brewery.security.perms.BeerOrderCreatePermission;
+import com.hspark.brewery.security.perms.BeerOrderPickUpPermission;
+import com.hspark.brewery.security.perms.BeerOrderReadPermission;
+import com.hspark.brewery.security.perms.BeerOrderUpdatePermission;
 import com.hspark.brewery.services.BeerOrderService;
 import com.hspark.brewery.web.model.BeerOrderDto;
 import com.hspark.brewery.web.model.BeerOrderPagedList;
@@ -26,18 +26,18 @@ import lombok.AllArgsConstructor;
 
 @RequestMapping("/api/v1/customers/{customerId}")
 @RestController
-public class BeerOrderConstroller {
+public class BeerOrderController {
 	
 	private static final Integer DEFAULT_PAGE_NUMBER = 0;
 	private static final Integer DEFAULT_PAGE_SIZE = 25;
 	
 	private final BeerOrderService beerOrderService;
 	
-	public BeerOrderConstroller(BeerOrderService beerOrderService) {
+	public BeerOrderController(BeerOrderService beerOrderService) {
 		this.beerOrderService = beerOrderService;
 	}
 	
-	@OrderReadPermission
+	@BeerOrderReadPermission
 	@GetMapping("orders")
 	public BeerOrderPagedList listOrders(@PathVariable("customerId") UUID customerId, 
 										 @RequestParam(value="pageNumber", required = false) Integer pageNumber, 
@@ -54,7 +54,7 @@ public class BeerOrderConstroller {
 		return beerOrderService.listOrders(customerId, PageRequest.of(pageNumber, pageSize));	
 	}
 	
-	@OrderCreatePermission
+	@BeerOrderCreatePermission
 	@PostMapping("orders")
 	@ResponseStatus(HttpStatus.CREATED)
 	public BeerOrderDto placeOrder(@PathVariable("customerId") UUID customerId,
@@ -62,14 +62,14 @@ public class BeerOrderConstroller {
 		return beerOrderService.placeOrder(customerId, beerOrderDto);
 	}
 	
-	@OrderReadPermission
+	@BeerOrderReadPermission
 	@GetMapping("orders/{orderId}")
 	public BeerOrderDto getOrder(@PathVariable("customerId") UUID customerId,
 			                     @PathVariable("orderId") UUID orderId) {
 		return beerOrderService.getOrderById(customerId, orderId);	
 	}
 	
-	@OrderPickUpPermission
+	@BeerOrderPickUpPermission
 	@PutMapping("orders/{orderId}/pickup")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void pickupOrder(@PathVariable("customerId") UUID customerId,
