@@ -9,5 +9,5 @@ import org.springframework.security.access.prepost.PreAuthorize;
 @PreAuthorize("hasAuthority('order.pickup') OR " +
         "hasAuthority('customer.order.pickup') AND " +
         "@beerOrderAuthenticationManager.customerIdMatches(authentication, #customerId )")
-public @interface OrderPickUpPermission {
+public @interface BeerOrderPickUpPermission {
 }
