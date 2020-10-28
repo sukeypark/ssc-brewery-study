@@ -206,10 +206,6 @@ class BeerOrderControllerTest extends BaseIT{
 		mockMvc.perform(put(API_ROOT + stPeteCustomer.getId() + "/orders/" + beerOrder.getId() + "/pickup"))
 				.andExpect(status().is2xxSuccessful());		
 	}
-	
-	@Disabled
-	@Test
-	void pickUpOrderNOAuth() {}
 
 	private BeerOrderDto buildOrderDto(Customer customer, UUID beerId) {
         List<BeerOrderLineDto> orderLines = Arrays.asList(BeerOrderLineDto.builder()

@@ -52,6 +52,21 @@ public class BeerOrderServiceImpl implements BeerOrderService {
 		}
 	}
 	
+	@Override
+	public BeerOrderPagedList listOrders(Pageable pageable) {
+		Page<BeerOrder> beerOrderPage = beerOrderRepository.findAll(pageable);
+	
+		return new BeerOrderPagedList(
+				beerOrderPage.stream()
+						.map(beerOrderMapper::beerOrderToDto)
+						.collect(Collectors.toList()),
+				PageRequest.of(
+						beerOrderPage.getPageable().getPageNumber(), 
+						beerOrderPage.getPageable().getPageSize()),
+				beerOrderPage.getTotalElements()
+		);
+	}
+	
 	@Transactional
 	@Override
 	public BeerOrderDto placeOrder(UUID customerId, BeerOrderDto beerOrderDto) {
@@ -80,6 +95,12 @@ public class BeerOrderServiceImpl implements BeerOrderService {
 	public BeerOrderDto getOrderById(UUID customerId, UUID orderId) {
 		return beerOrderMapper.beerOrderToDto(getOrder(customerId, orderId));
 	}
+	
+	@Override
+	public BeerOrderDto getOrderById(UUID orderId) {
+		BeerOrder beerOrder = beerOrderRepository.findOrderByIdSecure(orderId);
+		return beerOrderMapper.beerOrderToDto(beerOrder);
+	}
 
 	@Override
 	public void pickupOrder(UUID customerId, UUID orderId) {
@@ -107,4 +128,5 @@ public class BeerOrderServiceImpl implements BeerOrderService {
 		}
 		throw new RuntimeException("Customer Not Found.");
 	}
+
 }
