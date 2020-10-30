@@ -34,11 +34,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new SecurityEvaluationContextExtension();
 	}
 	
-	@Bean
-	PasswordEncoder passwordEncoder() {
-		return CustomPasswordEncoderFactories.createDelegatingPasswordEncoder();
-	}
-	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.addFilterBefore(google2faFilter, SessionManagementFilter.class);
