@@ -29,7 +29,7 @@ public class UserController {
 	public String register2fa(Model model) {
 		
 		User user = getUser();
-		
+		log.debug(user.toString());
 		String url = GoogleAuthenticatorQRGenerator.getOtpAuthURL(
 				"hspark", 
 				user.getUsername(), 
@@ -42,7 +42,7 @@ public class UserController {
 		return "user/register2fa";
 	}
 
-	@PostMapping
+	@PostMapping("/register2fa")
 	public String confirm2fa(@RequestParam Integer verifyCode) {
 		
 		User user = getUser();
@@ -66,13 +66,13 @@ public class UserController {
 		return "user/verify2fa";
 	}
 	
-	@PostMapping
+	@PostMapping("/verify2fa")
 	public String verifyPostOf2Fa(@RequestParam Integer verifyCode) {
 		
 		User user = getUser();
 		
 		if (googleAuthenticator.authorizeUser(user.getUsername(), verifyCode) ) {
-			((User) SecurityContextHolder.getContext().getAuthentication().getCredentials()).setGoogle2faRequired(false);
+			((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).setGoogle2faRequired(false);
 			
 			return "/index";
 		} else {
@@ -82,6 +82,6 @@ public class UserController {
 	}
 	
 	private User getUser() {
-		return (User) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+		return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	}
 }
